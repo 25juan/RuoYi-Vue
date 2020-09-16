@@ -77,4 +77,8 @@
 
 
 ## 学习总结
+1. redis启动命令
+    redis-server.exe --service-install redis.windows.conf
+1. 在生成代码的时候，自定义的路径是生成代码的绝对路径
+
 
