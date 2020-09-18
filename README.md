@@ -79,8 +79,12 @@
 ## 学习总结
 1. redis启动命令
    redis-server.exe --service-install redis.windows.conf
-1. 在生成代码的时候，自定义的路径是生成代码的绝对路径
+1. 在生成代码的时候，自定义的路径是生成代码的绝对路径(E:/code/idea/RuoYi-Vue/abit-commodity/src)
 1. 打包项目`mvn install`，
 1. 编译项目`mvn compile`
 1. 清空项目`mvn clean` 
 
+## 待完善
+1. 缺少number数字框
+1. 缺少图片上传或者文件上传框
+1. 不支持表作为字典
