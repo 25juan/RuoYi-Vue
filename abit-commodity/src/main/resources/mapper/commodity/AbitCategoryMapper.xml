@@ -10,10 +10,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="pid"    column="pid"    />
         <result property="createTime"    column="create_time"    />
         <result property="description"    column="description"    />
+        <result property="status"    column="status"    />
     </resultMap>
 
     <sql id="selectAbitCategoryVo">
-        select id, name, pid, create_time, description from abit_category
+        select id, name, pid, create_time, description,status from abit_category
     </sql>
 
     <select id="selectAbitCategoryList" parameterType="AbitCategory" resultMap="AbitCategoryResult">
@@ -21,6 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
         </where>
+
     </select>
     
     <select id="selectAbitCategoryById" parameterType="Long" resultMap="AbitCategoryResult">
@@ -36,6 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pid != null">pid,</if>
             <if test="createTime != null">create_time,</if>
             <if test="description != null">description,</if>
+            <if test="status != null">status,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -43,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pid != null">#{pid},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="description != null">#{description},</if>
+            <if test="status != null">#{status},</if>
          </trim>
     </insert>
 
@@ -53,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pid != null">pid = #{pid},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
         </trim>
         where id = #{id}
     </update>

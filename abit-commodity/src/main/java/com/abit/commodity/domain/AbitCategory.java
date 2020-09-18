@@ -29,7 +29,17 @@ public class AbitCategory extends BaseEntity
     @Excel(name = "描述")
     private String description;
 
-    public void setId(Long id) 
+    private int status ;
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
