@@ -44,6 +44,19 @@ public class AbitCategoryController extends BaseController
         List<AbitCategory> list = abitCategoryService.selectAbitCategoryList(abitCategory);
         return getDataTable(list);
     }
+    /**
+     * 查询可用的商品分类列表
+     */
+    @PreAuthorize("@ss.hasPermi('commodity:category:list')")
+    @GetMapping("/available")
+    public TableDataInfo available(AbitCategory abitCategory)
+    {
+        abitCategory.setStatus(1);
+        List<AbitCategory> list = abitCategoryService.selectAbitCategoryList(abitCategory);
+        return getDataTable(list);
+    }
+
+
 
     /**
      * 导出商品分类列表

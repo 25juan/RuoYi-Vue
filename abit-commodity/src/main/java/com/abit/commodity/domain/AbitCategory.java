@@ -29,13 +29,13 @@ public class AbitCategory extends BaseEntity
     @Excel(name = "描述")
     private String description;
 
-    private int status ;
+    private Integer status ;
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
