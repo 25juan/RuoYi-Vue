@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="picture"    column="picture"    />
         <result property="cateId"    column="cate_id"    />
+        <result property="status"    column="status"    />
         <result property="cateName"    column="cate_name"    />
     </resultMap>
 
@@ -25,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 commodity.create_time,
                 commodity.picture,
                 commodity.cate_id,
+                commodity.status,
                 category.name cate_name
                 from abit_commodity commodity,abit_category category
                 where category.id = commodity.cate_id
@@ -35,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCommodityVo"/>
         <if test="name != null  and name != ''"> and commodity.name like concat('%', #{name}, '%')</if>
         <if test="cateId != null "> and commodity.cate_id = #{cateId}</if>
+        <if test="status != null "> and commodity.status = #{status}</if>
     </select>
     
     <select id="selectCommodityById" parameterType="Long" resultMap="CommodityResult">
