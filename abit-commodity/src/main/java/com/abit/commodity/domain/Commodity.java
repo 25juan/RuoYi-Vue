@@ -39,11 +39,32 @@ public class Commodity extends BaseEntity
     @Excel(name = "商品描述图片")
     private String picture;
 
-    /** 所属分类 */
-    @Excel(name = "所属分类")
+    /** 所属分类ID */
     private Long cateId;
 
-    public void setId(Long id) 
+    /** 所属分类 */
+    @Excel(name = "所属分类")
+    private String cateName;
+
+    private Integer status ;
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setCateName(String cateName) {
+        this.cateName = cateName;
+    }
+
+    public String getCateName() {
+        return cateName;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -118,6 +139,7 @@ public class Commodity extends BaseEntity
             .append("createTime", getCreateTime())
             .append("picture", getPicture())
             .append("cateId", getCateId())
+            .append("cateName", getCateName())
             .toString();
     }
 }

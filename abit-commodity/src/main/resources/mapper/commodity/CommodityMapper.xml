@@ -13,11 +13,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="picture"    column="picture"    />
         <result property="cateId"    column="cate_id"    />
+        <result property="cateName"    column="cate_name"    />
     </resultMap>
 
     <sql id="selectCommodityVo">
         select id, name, description, price, rest_count, create_time, picture, cate_id from abit_commodity
     </sql>
+
 
     <select id="selectCommodityList" parameterType="Commodity" resultMap="CommodityResult">
         <include refid="selectCommodityVo"/>
@@ -43,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="picture != null">picture,</if>
             <if test="cateId != null">cate_id,</if>
+            <if test="status != null">status,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -53,6 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">#{createTime},</if>
             <if test="picture != null">#{picture},</if>
             <if test="cateId != null">#{cateId},</if>
+            <if test="status != null">#{status},</if>
          </trim>
     </insert>
 
@@ -66,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="picture != null">picture = #{picture},</if>
             <if test="cateId != null">cate_id = #{cateId},</if>
+            <if test="status != null">status = #{status},</if>
         </trim>
         where id = #{id}
     </update>

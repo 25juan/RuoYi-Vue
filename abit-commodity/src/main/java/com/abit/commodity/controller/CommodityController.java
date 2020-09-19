@@ -76,6 +76,7 @@ public class CommodityController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody Commodity commodity)
     {
+        commodity.setStatus(0);
         return toAjax(commodityService.insertCommodity(commodity));
     }
 
