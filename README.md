@@ -5,3 +5,13 @@
 1. 修改数据库连接地址`src/main/resources/application-druid.yml`
 
 3. 启动应用即可 
+
+
+## 应用截图
+![](./assets/1.png)
+
+![](./assets/2.png)
+
+![](./assets/3.png)
+
+![](./assets/4.png)
