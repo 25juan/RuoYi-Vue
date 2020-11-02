@@ -1,4 +1,4 @@
-## 基于若依开发react-native(android)热更新包管理平台
+## 基于若依开发react-native(android)热更新包管理平台(后端)
 
 1. 初始化sql文件加下面的sql 文件
 
