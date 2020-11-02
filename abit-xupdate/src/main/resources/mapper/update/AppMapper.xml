@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abit.update.mapper.AppMapper">
+    
+    <resultMap type="App" id="AppResult">
+        <result property="id"    column="id"    />
+        <result property="appId"    column="app_id"    />
+        <result property="appName"    column="app_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="userId"    column="user_id"    />
+        <result property="status"    column="status"    />
+        <result property="platform"    column="platform"    />
+        <result property="nickName"    column="nick_name"    />
+    </resultMap>
+
+    <sql id="selectAppVo">
+        select app.id, app.app_id, app.app_name, app.create_time, app.update_time, app.user_id, app.status, app.platform,
+        user.nick_name as nick_name
+         from abit_app app,sys_user user where app.user_id = user.user_id
+    </sql>
+
+    <select id="selectAppList" parameterType="App" resultMap="AppResult">
+        <include refid="selectAppVo"/>
+
+        <if test="appId != null  and appId != ''"> and app.app_id = #{appId}</if>
+        <if test="appName != null  and appName != ''"> and app.app_name like concat('%', #{appName}, '%')</if>
+        <if test="userId != null "> and app.user_id = #{userId}</if>
+        <if test="status != null "> and app.status = #{status}</if>
+        <if test="platform != null "> and app.platform = #{platform}</if>
+
+    </select>
+    
+    <select id="selectAppById" parameterType="Long" resultMap="AppResult">
+        <include refid="selectAppVo"/>
+        and id = #{id}
+    </select>
+        
+    <insert id="insertApp" parameterType="App">
+        insert into abit_app
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="appId != null and appId != ''">app_id,</if>
+            <if test="appName != null and appName != ''">app_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="status != null">status,</if>
+            <if test="platform != null">platform,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="appId != null and appId != ''">#{appId},</if>
+            <if test="appName != null and appName != ''">#{appName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="platform != null">#{platform},</if>
+         </trim>
+    </insert>
+
+    <update id="updateApp" parameterType="App">
+        update abit_app
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appId != null and appId != ''">app_id = #{appId},</if>
+            <if test="appName != null and appName != ''">app_name = #{appName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="platform != null">platform = #{platform},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAppById" parameterType="Long">
+        delete from abit_app where id = #{id}
+    </delete>
+
+    <delete id="deleteAppByIds" parameterType="String">
+        delete from abit_app where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -4,6 +4,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import cn.hutool.core.util.StrUtil;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -70,6 +72,26 @@ public class ServletUtils
     public static HttpSession getSession()
     {
         return getRequest().getSession();
+    }
+
+    /**
+     * 获取当前的路径
+     */
+    public static String getRootPath()
+    {
+        HttpServletRequest httpServletRequest = getRequest() ;
+        String scheme = httpServletRequest.getScheme() ;
+        String serverName = httpServletRequest.getServerName() ;
+        int port = httpServletRequest.getServerPort() ;
+        String context = httpServletRequest.getContextPath() ;
+        String template = "{}://{}:{}{}";
+        String rootPath = null ;
+        if(StrUtil.isEmpty(context)){
+            rootPath = StrUtil.format(template,scheme,serverName,port,"");
+        }else {
+            rootPath = StrUtil.format(template,scheme,serverName,port,"/"+context);
+        }
+        return rootPath ;
     }
 
     public static ServletRequestAttributes getRequestAttributes()

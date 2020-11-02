@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.hutool.core.lang.Console;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -196,8 +198,15 @@ public class LogAspect
             {
                 if (!isFilterObject(paramsArray[i]))
                 {
-                    Object jsonObj = JSON.toJSON(paramsArray[i]);
-                    params += jsonObj.toString() + " ";
+                    if( paramsArray[i] != null ) {
+                        Object jsonObj = null ;
+                        if(paramsArray[i] instanceof String){
+                            jsonObj = paramsArray[i] ;
+                        }else {
+                            jsonObj = JSON.toJSON(paramsArray[i]);
+                        }
+                        params += jsonObj.toString() + " ";
+                    }
                 }
             }
         }

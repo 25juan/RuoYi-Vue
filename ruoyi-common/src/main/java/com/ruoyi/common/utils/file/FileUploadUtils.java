@@ -2,6 +2,8 @@ package com.ruoyi.common.utils.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.config.RuoYiConfig;
@@ -23,7 +25,7 @@ public class FileUploadUtils
     /**
      * 默认大小 50M
      */
-    public static final long DEFAULT_MAX_SIZE = 50 * 1024 * 1024;
+    public static final long DEFAULT_MAX_SIZE = 500 * 1024 * 1024;
 
     /**
      * 默认的文件名最大长度 100
@@ -115,6 +117,43 @@ public class FileUploadUtils
         String pathFileName = getPathFileName(baseDir, fileName);
         return pathFileName;
     }
+    /**
+     * 文件上传
+     *
+     * @param baseDir 相对应用的基目录
+     * @param file 上传的文件
+     * @return 返回上传成功的文件名
+     * @throws FileSizeLimitExceededException 如果超出最大大小
+     * @throws FileNameLengthLimitExceededException 文件名太长
+     * @throws IOException 比如读写文件出错时
+     * @throws InvalidExtensionException 文件校验异常
+     */
+    public static final HashMap<String,String> upload(String baseDir, MultipartFile file,int flag)
+            throws FileSizeLimitExceededException, IOException, FileNameLengthLimitExceededException,
+            InvalidExtensionException
+    {
+        HashMap<String,String> result = new HashMap<String, String>();
+        String []allowedExtension = MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION ;
+
+        int fileNamelength = file.getOriginalFilename().length();
+        if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH)
+        {
+            throw new FileNameLengthLimitExceededException(FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
+        }
+        assertAllowed(file, allowedExtension);
+
+        String fileName = extractFilename(file);
+
+        File desc = getAbsoluteFile(baseDir, fileName);
+        file.transferTo(desc);
+        String pathFileName = getPathFileName(baseDir, fileName);
+
+        result.put("pathFileName",pathFileName);
+        result.put("absolutePath",desc.getAbsolutePath() );
+
+        return result;
+    }
+
 
     /**
      * 编码文件名
@@ -126,6 +165,9 @@ public class FileUploadUtils
         fileName = DateUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
         return fileName;
     }
+
+
+
 
     private static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException
     {
@@ -148,6 +190,19 @@ public class FileUploadUtils
         String currentDir = StringUtils.substring(uploadDir, dirLastIndex);
         String pathFileName = Constants.RESOURCE_PREFIX + "/" + currentDir + "/" + fileName;
         return pathFileName;
+    }
+
+    /**
+     * 根据文件的http访问路径来得到物理存储路径
+     * @param profile
+     * @return
+     */
+    public static final String getAbsolutePath(String profile){
+        // String prefix = Constants.RESOURCE_PREFIX + "/" ;
+        String prefix = Constants.RESOURCE_PREFIX;
+        String rootPath = RuoYiConfig.getProfile() ;
+        String path = profile.replace(prefix,"");
+        return rootPath+path ;
     }
 
     /**
